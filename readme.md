@@ -1,3 +1,5 @@
+###**中文版地址https://q1mi.github.io/Django-REST-framework-documentation/tutorial/1-serialization_zh/**
+
 在浏览器里访问http://127.0.0.1:8000/snippets/
 可以看到返回一个正确的json字符串
 此时的1-serialize教程已经结束了
