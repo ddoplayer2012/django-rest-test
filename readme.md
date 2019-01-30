@@ -27,3 +27,23 @@ REST框架提供了两个可用于编写API视图的包装器（wrappers）。
 这些包装器提供了一些功能，例如确保你在视图中接收到Request实例，并将上下文添加到Response，以便可以执行内容协商。
 
 包装器还提供了诸如在适当时候返回405 Method Not Allowed响应，并处理在使用格式错误的输入来访问request.data时发生的任何ParseError异常。
+```
+C:\Users\me>http --json POST http://127.0.0.1:8000/snippets/ code="printf(456)" language="java"
+HTTP/1.1 201 Created
+Allow: OPTIONS, POST, GET
+Content-Length: 93
+Content-Type: application/json
+Date: Wed, 30 Jan 2019 06:19:51 GMT
+Server: WSGIServer/0.2 CPython/3.6.4
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+
+{
+    "code": "printf(456)",
+    "id": 8,
+    "language": "java",
+    "linenos": false,
+    "style": "friendly",
+    "title": ""
+}
+```
