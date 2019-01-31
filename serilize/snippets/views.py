@@ -54,7 +54,10 @@ from rest_framework import generics
 #         return Response(status=status.HTTP_204_NO_CONTENT)
 class SnippetList(generics.ListCreateAPIView):
     '''
-    进一步简化
+    进一步简化ListCreateAPIView(mixins.ListModelMixin,
+                        mixins.CreateModelMixin,
+                        GenericAPIView)
+    GET ,POST
     '''
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
@@ -62,7 +65,12 @@ class SnippetList(generics.ListCreateAPIView):
 
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     '''
-    进一步简化
+    进一步简化generics.RetrieveUpdateDestroyAPIView(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericAPIView)
+    GET,POST,PATCH,DELETE
     '''
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
