@@ -25,7 +25,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         # 读取权限允许任何请求，
         # 所以我们总是允许GET，HEAD或OPTIONS请求。
         if request.method in permissions.SAFE_METHODS:
-            return False
+            return True
 
         # 只有该snippet的所有者才允许写权限。
         return obj.owner == request.user
