@@ -7,6 +7,10 @@ from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer
 from rest_framework import mixins
 from rest_framework import generics
+from django.contrib.auth.models import User
+from snippets.serializers import UserSerializer
+from rest_framework import permissions
+from snippets.permissions import IsOwnerOrReadOnly
 #
 # class snippet_list(APIView):
 #     """
@@ -59,8 +63,13 @@ class SnippetList(generics.ListCreateAPIView):
                         GenericAPIView)
     GET ,POST
     '''
+    #queryset为必须字段，assert里面有断言，如果为None则报错
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #修改这里就能控制该视图路由的权限
+
+    def perform_create(self, serializer):
+        serializer.save ( owner=self.request.user )
 
 
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -74,6 +83,8 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     '''
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,) #修改这里就能控制该视图路由的权限
+
 #
 # class SnippetList(mixins.ListModelMixin,
 #                   mixins.CreateModelMixin,
@@ -105,3 +116,14 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
 #
 #     def delete(self, request, *args, **kwargs):
 #         return self.destroy(request, *args, **kwargs)
+
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
